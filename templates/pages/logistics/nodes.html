@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block page_scripts %}
+    <script src="/static/assets/js/app-logistics-dashboard.js"></script>
+{% endblock %}
+
+{% block content %}
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">Logistics /</span> Hawk Nodes
+    </h4>
+
+    <!-- Card Border Shadow -->
+    <div class="row">
+        <div class="card">
+            <h5 class="card-header">Owned Tracker Nodes</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Location</th>
+                        <th>Organization</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                    {% for node in nodes %}
+                        <tr>
+                            <td><span class="fw-medium">{{ node.name }}</span>
+                            </td>
+                            <td>
+                                {% if node.is_active %}
+                                <span class="badge bg-label-primary me-1">Active</span>
+                                {% else %}
+                                <span class="badge bg-label-warning me-1">Offline</span><br>
+                                    Last updated: {{ node.last_updated }}
+                                {% endif %}
+                            </td>
+                            <td>{{ node.location }}</td>
+                            <td>{{ node.organization }}</td>
+                            <td>{{ node.latitude }}</td>
+                            <td>{{ node.longitude }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--/ Card Border Shadow -->
+
+
+
+{% endblock %}

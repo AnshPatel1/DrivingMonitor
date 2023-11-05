@@ -6,6 +6,7 @@ from Tracker.views import *
 
 urlpatterns = [
     path('', dashboard, name='dashboard'),
+    path('api/', include('Tracker.api_urls')),
     path('fleet/', fleet, name='fleet'),
     path('fleet-demo/', fleet_demo, name='fleet-demo'),
     path('trips/', trip, name='trips'),

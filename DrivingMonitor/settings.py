@@ -24,7 +24,8 @@ SECRET_KEY = 'django-insecure-fa!0u%wbaewao9k#@=$!)h62$@2kdvk!yij++1nbtyx83q@$7e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['serving-elegant-punishment-processor.trycloudflare.com', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://serving-elegant-punishment-processor.trycloudflare.com', 'http://127.0.0.1']
 
 # Application definition
 

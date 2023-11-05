@@ -191,10 +191,11 @@ def fleet(request):
             "id": i + 1,
             "number": f"N{t.node.vehicle.number}",
             "name": t.node.vehicle.number,
+            "node_id": t.node.node_id,
             "location": t.node.vehicle.name,
             "progress": t.node.vehicle.id*10,
-            "latitude": float(lh.latitude),
-            "longitude": float(lh.longitude),
+            "latitude": float(lh.latitude) if lh else None,
+            "longitude": float(lh.longitude) if lh else None,
             "events": events
         })
     data = {

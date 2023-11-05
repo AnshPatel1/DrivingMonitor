@@ -1,3 +1,15 @@
+function get_latest_location(id) {
+    $.ajax({
+        url: "/api/node/" + id + "/latest_location",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            return data;
+        }
+    })
+}
+
+
 mapboxgl.accessToken = "pk.eyJ1IjoibG9yZC1zaGl2YW0iLCJhIjoiY2xpeTlpNHFwMDVzbDNmczl2MXdob29udyJ9.JOLDU6VQG_ra1CoVG4jbUA";
 const r = new mapboxgl.Map({
     container: "map",
@@ -54,11 +66,12 @@ displayMap(0);
 
 // execute function displayMap() every 1 seconds
 
-function updateCoords() {
-    vehicleData.forEach(vehicle => {
-        vehicle.latitude += 0.0001;
-        vehicle.longitude -= 0.0001;
-    })
+async function updateCoords() {
+    for (const vehicle of vehicleData) {
+        const data = await get_latest_location(vehicle.node_id);
+        vehicle.latitude = data.lat;
+        vehicle.longitude = data.lon;
+    }
 }
 
 async function processMap() {

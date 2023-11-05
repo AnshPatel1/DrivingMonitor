@@ -53,12 +53,10 @@ class Driver(models.Model):
     state = models.CharField(max_length=1024)
     country = models.CharField(max_length=1024)
     pincode = models.CharField(max_length=1024)
-    latitude = models.DecimalField(max_digits=50, decimal_places=24)
-    longitude = models.DecimalField(max_digits=50, decimal_places=24)
     last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.name} - {self.number} | {self.group.name}"
+        return f"{self.name} | {self.group.name}"
 
     class Meta:
         verbose_name_plural = "Drivers"
@@ -74,10 +72,11 @@ def generate_random_string(length=10):
 class TrackerNode(models.Model):
     node_id = models.CharField(max_length=10, unique=True, default=generate_random_string)
     is_online = models.BooleanField(default=False)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, null=True)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, null=True, blank=True)
+    group = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f"Tracker Node of {self.vehicle.name} | Online Status: {self.is_online}"
+        return f"Tracker Node {self.node_id} | Online Status: {self.is_online}"
 
     class Meta:
         verbose_name_plural = "Tracker Nodes"
@@ -89,6 +88,7 @@ class Trip(models.Model):
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, null=True)
     start_time = models.DateTimeField(auto_now=True)
     end_time = models.DateTimeField(null=True, blank=True)
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.node} | Start {self.start_time} | End: {self.end_time}"
@@ -99,12 +99,13 @@ class Trip(models.Model):
 
 
 class TripEvent(models.Model):
-    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
-    event_type = models.CharField(max_length=1024, choices=(
+    EVENT_TYPES = (
         ("HARD_BRAKING", "Hard Braking"),
         ("RAPID_ACCELERATION", "Rapid Acceleration"),
         ("HARSH_LANE_CHANGE", "Harsh Lane Change"),
-    ))
+    )
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    event_type = models.CharField(max_length=1024, choices=EVENT_TYPES)
     event_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -116,9 +117,9 @@ class TripEvent(models.Model):
 
 
 class LocationHistory(models.Model):
-    models.ForeignKey(Trip, on_delete=models.CASCADE)
-    latitude = models.DecimalField(max_digits=50, decimal_places=24)
-    longitude = models.DecimalField(max_digits=50, decimal_places=24)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    latitude = models.DecimalField(max_digits=50, decimal_places=6)
+    longitude = models.DecimalField(max_digits=50, decimal_places=6)
     city = models.CharField(max_length=1024, default='NA')
     region = models.CharField(max_length=1024, default='NA')
     country = models.CharField(max_length=1024, default='NA')

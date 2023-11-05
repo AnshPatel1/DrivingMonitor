@@ -1,6 +1,6 @@
 "use strict";
 $(function () {
-    var e = $(".selectpicker"), t = $(".select2"), n = $(".select2-icons");
+    var e = $(".selectpicker"), t = $(".select2n"), n = $(".select2-icons");
     
     function i(e) {
         return e.id ? "<i class='" + $(e.element).data("icon") + " me-2'></i>" + e.text : e.text

@@ -75,6 +75,18 @@
                 <div class="text-truncate" data-i18n="Live Fleet">Live Fleet</div>
             </a>
         </li>
+        <li class="menu-item {% if pagename == 'trips' %}active{% endif %}">
+            <a href="{% url 'trips' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-chart"></i>
+                <div class="text-truncate">Trips</div>
+            </a>
+        </li>
+        <li class="menu-item {% if pagename == 'fleet-demo' %}active{% endif %}">
+            <a href="{% url 'fleet-demo' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-car"></i>
+                <div class="text-truncate" data-i18n="Live Fleet Demo">Live Fleet Demo</div>
+            </a>
+        </li>
         <li class="menu-item {% if pagename == 'hawk_node' %}active{% endif %}">
             <a href="{% url 'nodes' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-devices"></i>
